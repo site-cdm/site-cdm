@@ -1,52 +1,84 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
+    <title>Connexion ou Inscription</title>
 </head>
 <body>
 
-    <h2>Connexion requise</h2>
+    <h2>Connexion / Inscription</h2>
     
-    <p id="message-erreur" style="color: red; display: none;">Identifiant ou mot de passe incorrect.</p>
+    <!-- Messages d'erreur ou d'information -->
+    <p id="message-erreur" style="color: red; display: none;"></p>
 
-    <form onsubmit="verifierConnexion(event)">
+    <form onsubmit="gererConnexion(event)">
         <label>Identifiant :</label><br>
         <input type="text" id="username" required><br><br>
 
         <label>Mot de passe :</label><br>
         <input type="password" id="password" required><br><br>
 
-        <button type="submit">Se connecter</button>
+        <button type="submit">Se connecter / Créer son compte</button>
     </form>
 
-  <script>
-    var pageCible = "cdm.html"; // Nom de votre page d'accueil
+    <script>
+        // Page vers laquelle rediriger après la connexion réussie
+        var pageCible = "accueil.html";
 
-    function verifierConnexion(event) {
-        event.preventDefault();
+        function gererConnexion(event) {
+            event.preventDefault();
 
-        var user = document.getElementById('username').value;
-        var pass = document.getElementById('password').value;
+            var user = document.getElementById('username').value.trim();
+            var pass = document.getElementById('password').value;
+            var msgErreur = document.getElementById('message-erreur');
+            msgErreur.style.display = 'none';
 
-        if (user === "admin" && pass === "1234") {
-            
-            // --- ENREGISTREMENT DE LA CONNEXION ---
+            // Récupérer la liste des utilisateurs enregistrés (par défaut, il y a au moins "admin" / "1234")
+            var utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || { "admin": "1234" };
+
+            // 1. Si l'utilisateur n'existe pas encore, on le crée avec son mot de passe
+            if (!utilisateurs[user]) {
+                utilisateurs[user] = pass;
+                localStorage.setItem('utilisateurs', JSON.stringify(utilisateurs));
+                
+                // Enregistrer la connexion dans l'historique
+                ajouterHistorique(user);
+                
+                // Redirection
+                window.location.href = pageCible;
+            } 
+            // 2. Si l'utilisateur existe, on vérifie son mot de passe
+            else if (utilisateurs[user] === pass) {
+                // Enregistrer la connexion dans l'historique
+                ajouterHistorique(user);
+                
+                // Redirection
+                window.location.href = pageCible;
+            } 
+            // 3. Sinon, le mot de passe est faux
+            else {
+                msgErreur.textContent = "Mot de passe incorrect pour cet identifiant.";
+                msgErreur.style.display = 'block';
+            }
+        }
+
+        function ajouterHistorique(utilisateurConnecte) {
             var historique = JSON.parse(localStorage.getItem('journalConnexions')) || [];
             var nouvelleConnexion = {
-                utilisateur: user,
+                utilisateur: utilisateurConnecte,
                 date: new Date().toLocaleString('fr-FR')
             };
             historique.push(nouvelleConnexion);
             localStorage.setItem('journalConnexions', JSON.stringify(historique));
-            // --------------------------------------
-
-            window.location.href = pageCible;
-        } else {
-            document.getElementById('message-erreur').style.display = 'block';
         }
-    }
-</script>
+    </script>
+
+</body>
+</html>
 
 </body>
 </html>
