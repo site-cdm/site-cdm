@@ -2,31 +2,8 @@
 
 
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Connexion ou Inscription</title>
-</head>
-<body>
-
-    <h2>Connexion / Inscription</h2>
-    
-    <!-- Messages d'erreur ou d'information -->
-    <p id="message-erreur" style="color: red; display: none;"></p>
-
-    <form onsubmit="gererConnexion(event)">
-        <label>Identifiant :</label><br>
-        <input type="text" id="username" required><br><br>
-
-        <label>Mot de passe :</label><br>
-        <input type="password" id="password" required><br><br>
-
-        <button type="submit">Se connecter / Créer son compte</button>
-    </form>
-
-    <script>
-    var pageCible = "cdm.html";
+<script>
+    var pageCible = "accueil.html";
 
     function gererConnexion(event) {
         event.preventDefault();
@@ -71,20 +48,6 @@
         localStorage.setItem('journalConnexions', JSON.stringify(historique));
     }
 </script>
-
-        function ajouterHistorique(utilisateurConnecte) {
-            var historique = JSON.parse(localStorage.getItem('journalConnexions')) || [];
-            var nouvelleConnexion = {
-                utilisateur: utilisateurConnecte,
-                date: new Date().toLocaleString('fr-FR')
-            };
-            historique.push(nouvelleConnexion);
-            localStorage.setItem('journalConnexions', JSON.stringify(historique));
-        }
-    </script>
-
-</body>
-</html>
 
 </body>
 </html>
