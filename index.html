@@ -20,22 +20,33 @@
         <button type="submit">Se connecter</button>
     </form>
 
-    <script>
-        function verifierConnexion(event) {
-            event.preventDefault();
+  <script>
+    var pageCible = "accueil.html"; // Nom de votre page d'accueil
 
-            var user = document.getElementById('username').value;
-            var pass = document.getElementById('password').value;
+    function verifierConnexion(event) {
+        event.preventDefault();
 
-            // Remplacez "admin" et "1234" par vos propres identifiants
-            if (user === "admin" && pass === "1234") {
-                // REDIRECTION vers votre vraie première page
-                window.location.href = "cdm.html";
-            } else {
-                document.getElementById('message-erreur').style.display = 'block';
-            }
+        var user = document.getElementById('username').value;
+        var pass = document.getElementById('password').value;
+
+        if (user === "admin" && pass === "1234") {
+            
+            // --- ENREGISTREMENT DE LA CONNEXION ---
+            var historique = JSON.parse(localStorage.getItem('journalConnexions')) || [];
+            var nouvelleConnexion = {
+                utilisateur: user,
+                date: new Date().toLocaleString('fr-FR')
+            };
+            historique.push(nouvelleConnexion);
+            localStorage.setItem('journalConnexions', JSON.stringify(historique));
+            // --------------------------------------
+
+            window.location.href = pageCible;
+        } else {
+            document.getElementById('message-erreur').style.display = 'block';
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>
