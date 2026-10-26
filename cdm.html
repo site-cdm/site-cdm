@@ -53,30 +53,43 @@
 
 
 
-#enplus
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Accueil</title>
+    <title>Accueil - CDM</title>
 </head>
 <body>
 
-    <h1>Bienvenue sur mon site !</h1>
-    <p>Vous êtes bien connecté.</p>
+    <h1>Bienvenue sur la première page (cdm.html) !</h1>
+    <p>Vous êtes connecté avec succès.</p>
 
-    <!-- Bouton Paramètres (affiché uniquement pour l'admin) -->
-    <button id="btn-parametres" onclick="window.location.href='parametre.html'" style="display: none;">
+    <!-- Navigation vers vos autres pages -->
+    <h3>Navigation :</h3>
+    <ul>
+        <li><a href="page2.html">Aller vers la Page 2</a></li>
+        <li><a href="page3.html">Aller vers la Page 3</a></li>
+    </ul>
+
+    <br>
+
+    <!-- Bouton Paramètres (affiché uniquement si c'est le compte 'admin') -->
+    <button id="btn-parametres" onclick="window.location.href='parametres.html'" style="display: none;">
         Paramètres / Historique (Admin)
     </button>
 
     <br><br>
+
     <!-- Bouton de déconnexion -->
     <button onclick="seDeconnecter()">Se déconnecter</button>
 
     <script>
-        // Vérifier qui est connecté
+        // Sécurité : Vérifier si l'utilisateur est bien connecté
         var utilisateurActuel = localStorage.getItem('currentUser');
+        if (!utilisateurActuel) {
+            window.location.href = 'index.html'; // Renvoyer au login si non connecté
+        }
 
         // Si c'est l'administrateur, on affiche le bouton des paramètres
         if (utilisateurActuel === 'admin') {
@@ -84,12 +97,12 @@
         }
 
         function seDeconnecter() {
-            // Effacer l'utilisateur connecté et revenir au login
             localStorage.removeItem('currentUser');
             window.location.href = 'index.html';
         }
     </script>
 
 </body>
+</html>
 </html>
 
