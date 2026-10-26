@@ -28,6 +28,7 @@ parametre
         } else {
             historique.forEach(function(entree) {
                 var li = document.createElement('li');
+                // Affiche clairement qui s'est connecté et quand
                 li.textContent = "Utilisateur : " + entree.utilisateur + " — Connecté le : " + entree.date;
                 listeHTML.appendChild(li);
             });
