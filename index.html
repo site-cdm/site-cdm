@@ -26,45 +26,51 @@
     </form>
 
     <script>
-        // Page vers laquelle rediriger après la connexion réussie
-        var pageCible = "cdm.html";
+    var pageCible = "accueil.html";
 
-        function gererConnexion(event) {
-            event.preventDefault();
+    function gererConnexion(event) {
+        event.preventDefault();
 
-            var user = document.getElementById('username').value.trim();
-            var pass = document.getElementById('password').value;
-            var msgErreur = document.getElementById('message-erreur');
-            msgErreur.style.display = 'none';
+        var user = document.getElementById('username').value.trim();
+        var pass = document.getElementById('password').value;
+        var msgErreur = document.getElementById('message-erreur');
+        msgErreur.style.display = 'none';
 
-            // Récupérer la liste des utilisateurs enregistrés (par défaut, il y a au moins "admin" / "1234")
-            var utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || { "admin": "1234" };
+        var utilisateurs = JSON.parse(localStorage.getItem('utilisateurs')) || { "admin": "1234" };
 
-            // 1. Si l'utilisateur n'existe pas encore, on le crée avec son mot de passe
-            if (!utilisateurs[user]) {
-                utilisateurs[user] = pass;
-                localStorage.setItem('utilisateurs', JSON.stringify(utilisateurs));
-                
-                // Enregistrer la connexion dans l'historique
-                ajouterHistorique(user);
-                
-                // Redirection
-                window.location.href = pageCible;
-            } 
-            // 2. Si l'utilisateur existe, on vérifie son mot de passe
-            else if (utilisateurs[user] === pass) {
-                // Enregistrer la connexion dans l'historique
-                ajouterHistorique(user);
-                
-                // Redirection
-                window.location.href = pageCible;
-            } 
-            // 3. Sinon, le mot de passe est faux
-            else {
-                msgErreur.textContent = "Mot de passe incorrect pour cet identifiant.";
-                msgErreur.style.display = 'block';
-            }
+        // 1. Création d'un nouveau compte si inexistant (sauf si c'est admin qui se connecte avec le bon mdp)
+        if (!utilisateurs[user]) {
+            utilisateurs[user] = pass;
+            localStorage.setItem('utilisateurs', JSON.stringify(utilisateurs));
+            
+            // Enregistrer qui est connecté et l'historique
+            localStorage.setItem('currentUser', user);
+            ajouterHistorique(user);
+            window.location.href = pageCible;
+        } 
+        // 2. Vérification si le compte existe et que le mot de passe est bon
+        else if (utilisateurs[user] === pass) {
+            localStorage.setItem('currentUser', user);
+            ajouterHistorique(user);
+            window.location.href = pageCible;
+        } 
+        // 3. Erreur de mot de passe
+        else {
+            msgErreur.textContent = "Mot de passe incorrect pour cet identifiant.";
+            msgErreur.style.display = 'block';
         }
+    }
+
+    function ajouterHistorique(utilisateurConnecte) {
+        var historique = JSON.parse(localStorage.getItem('journalConnexions')) || [];
+        var nouvelleConnexion = {
+            utilisateur: utilisateurConnecte,
+            date: new Date().toLocaleString('fr-FR')
+        };
+        historique.push(nouvelleConnexion);
+        localStorage.setItem('journalConnexions', JSON.stringify(historique));
+    }
+</script>
 
         function ajouterHistorique(utilisateurConnecte) {
             var historique = JSON.parse(localStorage.getItem('journalConnexions')) || [];
