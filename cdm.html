@@ -49,3 +49,47 @@
 </body>
 </html>
 
+
+
+
+
+#enplus
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+</head>
+<body>
+
+    <h1>Bienvenue sur mon site !</h1>
+    <p>Vous êtes bien connecté.</p>
+
+    <!-- Bouton Paramètres (affiché uniquement pour l'admin) -->
+    <button id="btn-parametres" onclick="window.location.href='parametres.html'" style="display: none;">
+        Paramètres / Historique (Admin)
+    </button>
+
+    <br><br>
+    <!-- Bouton de déconnexion -->
+    <button onclick="seDeconnecter()">Se déconnecter</button>
+
+    <script>
+        // Vérifier qui est connecté
+        var utilisateurActuel = localStorage.getItem('currentUser');
+
+        // Si c'est l'administrateur, on affiche le bouton des paramètres
+        if (utilisateurActuel === 'admin') {
+            document.getElementById('btn-parametres').style.display = 'block';
+        }
+
+        function seDeconnecter() {
+            // Effacer l'utilisateur connecté et revenir au login
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+    </script>
+
+</body>
+</html>
+
