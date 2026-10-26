@@ -6,20 +6,27 @@ parametre
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Paramètres</title>
+    <title>Paramètres Admin</title>
 </head>
 <body>
 
-    <h1>Paramètres du compte</h1>
+    <h1>Panneau d'administration</h1>
     <h2>Historique des connexions</h2>
 
-    <!-- Liste des connexions -->
     <ul id="liste-connexions"></ul>
 
     <br>
     <button onclick="window.location.href='accueil.html'">Retour à l'accueil</button>
 
     <script>
+        // SÉCURITÉ : Vérifier si l'utilisateur est bien l'admin
+        var utilisateurActuel = localStorage.getItem('currentUser');
+        if (utilisateurActuel !== 'admin') {
+            alert("Accès refusé : Cette page est réservée à l'administrateur.");
+            window.location.href = 'accueil.html';
+        }
+
+        // Affichage de l'historique si c'est l'admin
         var historique = JSON.parse(localStorage.getItem('journalConnexions')) || [];
         var listeHTML = document.getElementById('liste-connexions');
 
@@ -28,12 +35,14 @@ parametre
         } else {
             historique.forEach(function(entree) {
                 var li = document.createElement('li');
-                // Affiche clairement qui s'est connecté et quand
                 li.textContent = "Utilisateur : " + entree.utilisateur + " — Connecté le : " + entree.date;
                 listeHTML.appendChild(li);
             });
         }
     </script>
+
+</body>
+</html>
 
 </body>
 </html>
