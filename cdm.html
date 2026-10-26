@@ -75,7 +75,7 @@
     <br>
 
     <!-- Bouton Paramètres (affiché uniquement si c'est le compte 'admin') -->
-    <button id="btn-parametres" onclick="window.location.href='parametres.html'" style="display: none;">
+    <button id="btn-parametre" onclick="window.location.href='parametre.html'" style="display: none;">
         Paramètres / Historique (Admin)
     </button>
 
@@ -93,7 +93,7 @@
 
         // Si c'est l'administrateur, on affiche le bouton des paramètres
         if (utilisateurActuel === 'admin') {
-            document.getElementById('btn-parametres').style.display = 'block';
+            document.getElementById('btn-parametre').style.display = 'block';
         }
 
         function seDeconnecter() {
