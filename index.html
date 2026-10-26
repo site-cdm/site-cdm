@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+</head>
+<body>
+
+    <h2>Connexion requise</h2>
+    
+    <p id="message-erreur" style="color: red; display: none;">Identifiant ou mot de passe incorrect.</p>
+
+    <form onsubmit="verifierConnexion(event)">
+        <label>Identifiant :</label><br>
+        <input type="text" id="username" required><br><br>
+
+        <label>Mot de passe :</label><br>
+        <input type="password" id="password" required><br><br>
+
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <script>
+        function verifierConnexion(event) {
+            event.preventDefault();
+
+            var user = document.getElementById('username').value;
+            var pass = document.getElementById('password').value;
+
+            // Remplacez "admin" et "1234" par vos propres identifiants
+            if (user === "admin" && pass === "1234") {
+                // REDIRECTION vers votre vraie première page
+                window.location.href = "cdm.html";
+            } else {
+                document.getElementById('message-erreur').style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
