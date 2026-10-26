@@ -16,17 +16,17 @@ parametre
     <ul id="liste-connexions"></ul>
 
     <br>
-    <button onclick="window.location.href='accueil.html'">Retour à l'accueil</button>
+    <button onclick="window.location.href='cdm.html'">Retour à l'accueil</button>
 
     <script>
-        // SÉCURITÉ : Vérifier si l'utilisateur est bien l'admin
+        // SÉCURITÉ : Bloquer l'accès si ce n'est pas l'admin
         var utilisateurActuel = localStorage.getItem('currentUser');
         if (utilisateurActuel !== 'admin') {
-            alert("Accès refusé : Cette page est réservée à l'administrateur.");
-            window.location.href = 'accueil.html';
+            alert("Accès refusé : Réservé à l'administrateur.");
+            window.location.href = 'cdm.html';
         }
 
-        // Affichage de l'historique si c'est l'admin
+        // Afficher l'historique
         var historique = JSON.parse(localStorage.getItem('journalConnexions')) || [];
         var listeHTML = document.getElementById('liste-connexions');
 
@@ -40,9 +40,6 @@ parametre
             });
         }
     </script>
-
-</body>
-</html>
 
 </body>
 </html>
