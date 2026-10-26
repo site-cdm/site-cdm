@@ -1,0 +1,38 @@
+
+parametre
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paramètres</title>
+</head>
+<body>
+
+    <h1>Paramètres du compte</h1>
+    <h2>Historique des connexions</h2>
+
+    <!-- Liste des connexions -->
+    <ul id="liste-connexions"></ul>
+
+    <br>
+    <button onclick="window.location.href='accueil.html'">Retour à l'accueil</button>
+
+    <script>
+        var historique = JSON.parse(localStorage.getItem('journalConnexions')) || [];
+        var listeHTML = document.getElementById('liste-connexions');
+
+        if (historique.length === 0) {
+            listeHTML.innerHTML = "<li>Aucune connexion enregistrée.</li>";
+        } else {
+            historique.forEach(function(entree) {
+                var li = document.createElement('li');
+                li.textContent = "Utilisateur : " + entree.utilisateur + " — Connecté le : " + entree.date;
+                listeHTML.appendChild(li);
+            });
+        }
+    </script>
+
+</body>
+</html>
